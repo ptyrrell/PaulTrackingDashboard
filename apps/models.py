@@ -1,11 +1,5 @@
 from django.conf import settings
 from django.contrib import admin
-from django.contrib.auth.admin import UserAdmin
-from django.contrib.auth.forms import (
-    AdminPasswordChangeForm,
-    UserChangeForm,
-    UserCreationForm,
-)
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
@@ -389,6 +383,13 @@ class User(AbstractBaseUser, PermissionsMixin):
     def __str__(self):
         return "{}".format(self.email)
 
+
+from django.contrib.auth.admin import UserAdmin
+from django.contrib.auth.forms import (
+    AdminPasswordChangeForm,
+    UserChangeForm,
+    UserCreationForm,
+)
 
 class UserAdminCustom(UserAdmin):
     fieldsets = (
