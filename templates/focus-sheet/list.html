@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% load generic %}
+
+{% block scripts %}
+{% endblock %}
+
+{% block content %}
+
+<ul class="breadcrumb">
+    <li><a href="/">Home</a></li>
+    <li class="active">Focus Sheet</li>
+</ul>
+
+<br>
+
+<h2>Focus Sheet</h2>
+<br>
+
+<div class="text-left"><a href="{% url 'focus_sheet_create' %}" class="btn btn-primary"><b>+ Add New</b></a></div>
+
+<br>
+<div class="paddingtop5">
+
+    <table class="ntable">
+        <tr class="head">
+            <td>Week</td>
+            <td>Created</td>
+            <td>Updated</td>
+            <td></td>
+        </tr>
+
+        {% for object in object_list %}
+
+        <tr>
+            <td><a href="{% url 'focus_sheet_edit'  object.id %}"><b>{{ object.week_name }}</b></a></td>
+            <td>{{ object.date_created }}</td>
+            <td>{{ object.date_updated }}</td>
+            <td><a href="{% url 'focus_sheet_edit'  object.id %}"><b>Edit</b></a></td>
+        </tr>
+
+        {% empty %}
+        <tr>
+            <td colspan="4"><b>No focus sheet data found.</b></td>
+        </tr>
+        {% endfor %}
+
+    </table>
+
+</div>
+
+
+{% endblock %}
+

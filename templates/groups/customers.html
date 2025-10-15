@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+{% load groups %}
+
+{% block content %}
+<ul class="breadcrumb">
+  <li><a href="/">Home</a></li>
+  <li class="active">My Customers</li>
+</ul>
+
+<h3>Customers</h3>
+<hr>
+
+{% if user|is_supercoach %}
+<ul class="nav nav-tabs">
+    <li class="active"><a aria-expanded="true" href="#all" data-toggle="tab">All</a></li>
+    <li class=""><a aria-expanded="false" href="#archive" data-toggle="tab">Archive</a></li>
+</ul>
+<br>
+{% endif %}
+
+{% if messages %}
+<div class="alert alert-dismissible alert-success">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+    {% for message in messages %}
+    <span>{{ message }}</span>
+    {% endfor %}
+</div>
+{% endif %}
+
+
+<div id="root-tab" class="tab-content">
+    <div class="tab-pane fade active in" id="all">
+
+        <table class="ntable" cellpadding="0" cellspacing="0">
+            <tr class="head">
+                <td>Name</td>
+                <td>Email</td>
+                <td>Groups</td>
+                <td>Can edit Targets</td>
+
+                {% if not user.is_impersonate %}
+                <td><i class="fa fa-user"></i></td>
+                {% endif %}
+
+                <td><i class="fa key"></i></td>
+                <td>Active</td>
+
+                <td>Added</td>
+            </tr>
+
+            {% for customer in customers %}
+            <tr>
+                <td>
+                    {% if user|is_supercoach %}
+                    <a href="{% url "customer_edit" customer.id %}"><b>{{ customer.name }}</b></a>
+                    {% else %}
+                    <b>{{ customer.name }}</b>
+                    {% endif %}
+                </td>
+                <td>{{ customer.user.email }}</td>
+
+                <td>{% for group in customer.get_groups %} <span class="label label-info">{{ group.name }}</span>&nbsp;{% endfor %}</td>
+
+                <td>{% if customer.can_edit_target %}Yes{%else%}No{%endif%}</td>
+
+                {% if not user.is_impersonate %}
+                <td><a href="/impersonate/{{customer.user.id}}"><i class="fa fa-user"></i> <b>Coaching</b></a></td>
+                {% endif %}
+
+                <td>{% if user|is_supercoach %}
+                    <a href="{% url "customer_new_password" customer.id %}"><i class="fa fa-key"></i> <b>Change password</b></a>
+                    {% endif %}
+                </td>
+
+                <td>{% if customer.user.is_active %}Yes{%else%}No{%endif%}</td>
+
+                <td>{{ customer.date_created }}</td>
+
+            </tr>
+            {% endfor %}
+        </table>
+
+        <hr>
+
+        {% if user|is_supercoach %}
+        <div class="text-right">
+            <a class="btn btn-default" href='{% url "group_list" %}'>Groups Management</a>&nbsp;&nbsp;
+            <a class="btn btn-primary" href="{% url "customer_add" %}">New Customer</a>
+        </div>
+        {% endif %}
+
+    </div>
+    <div class="tab-pane fade" id="archive">
+        {% if user|is_supercoach %}
+            <table class="ntable" cellpadding="0" cellspacing="0">
+                <tr class="head">
+                    <td>Name</td>
+                    <td>Email</td>
+                    <td><i class="fa key"></i></td>
+                    <td>Active</td>
+                    <td>Added</td>
+                </tr>
+
+                {% for customer in inactive_customers %}
+                <tr>
+                    <td><a href="{% url "customer_edit" customer.id %}"><b>{{ customer.name }}</b></a></td>
+                    <td>{{ customer.user.email }}</td>
+                    <td><a href="{% url "customer_new_password" customer.id %}"><i class="fa fa-key"></i> <b>Change password</b></a></td>
+                    <td>{% if customer.user.is_active %}Yes{%else%}No{%endif%}</td>
+                    <td>{{ customer.date_created }}</td>
+
+                </tr>
+                {% endfor %}
+            </table>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

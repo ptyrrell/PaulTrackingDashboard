@@ -1,0 +1,53 @@
+
+{% extends "base.html" %}
+
+
+{% block content %}
+
+    <ul class="breadcrumb">
+        <li><a href="/">Home</a></li>
+        <li class="active">Journey</li>
+        <li class="active">Archive</li>
+    </ul>
+
+
+    <h2>Archive</h2>
+
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th colspan="2">Revenue year 1</th>
+                    <th colspan="2">Revenue year 2</th>
+                    <th colspan="2">Revenue year 3</th>
+                    <th colspan="2">Journey # value and date range</th>
+                    <th>Average Revenue</th>
+                    <th>Target revenue</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for object in page_obj.object_list %}
+                    <tr>
+                        <td>{{ object.rev_1_year }}</td>
+                        <td>{{ object.year_1_lbl }}</td>
+                        <td>{{ object.rev_2_year }}</td>
+                        <td>{{ object.year_2_lbl }}</td>
+                        <td>{{ object.rev_3_year }}</td>
+                        <td>{{ object.year_3_lbl }}</td>
+                        <td>{{ object.guarantee_val }}</td>
+                        <td>
+                            {{ object.next_range_start_date }} -
+                            {{ object.next_range_end_date }}
+                            ({{ object.next_range_month_delta }} months)
+                        </td>
+                        <td>{{ object.average }}</td>
+                        <td>{{ object.target_revenue }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {% include 'pagination.html' %}
+
+{% endblock %}

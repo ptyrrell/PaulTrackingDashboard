@@ -1,0 +1,12 @@
+django==1.9.4
+mysqlclient
+isoweek
+django-password-reset
+django-impersonate
+django-compressor
+requests
+newrelic
+uwsgi
+django-widget-tweaks
+python-dateutil
+xlsxwriter==1.1.5

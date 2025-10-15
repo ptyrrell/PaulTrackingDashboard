@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+{% load groups %}
+{% load compress %}
+
+{% block scripts %}
+
+{% compress js %}
+<script language="javascript" src="/static/js/numbers.js"></script>
+{% endcompress %}
+
+<script language="javascript" src="/static/js/jquery.cookie.js"></script>
+<script language="javascript" src="/static/js/Chart.Core.js"></script>
+<script language="javascript" src="/static/js/Chart.Line.js"></script>
+<script language="javascript" src="/static/js/Chart.Bar.js"></script>
+
+
+{% endblock %}
+
+{% block content %}
+<ul class="breadcrumb">
+  <li><a href="/">Home</a></li>
+  <li class="active">Targets</li>
+</ul>
+
+<div>
+  <div class="tab-pane fade active in" id="home">
+
+      <h3>View Key Number Targets</h3>
+
+      <p>Customer: <b>{{ user.email }}</b></p>
+
+
+      {% if not user|can_edit_target and user.is_impersonate %}
+            <div class="alert alert-dismissible alert-info">
+                <button type="button" class="close" data-dismiss="alert">×</button>
+                Coaching in Progress.
+            </div>
+      {% endif %}
+
+    <div class="row">
+        <div class="col-md-6 padding0">
+            <b>Week</b>:
+
+            <select id="targetWeekSel" name="weeks" autocomplete="off">
+                  {% for w in weeks %}
+                  <option value="{{ w }}" {% if week.year == w.year and week.week == w.week %}selected{% endif %}>{{ w.sunday }}</option>
+                  {% endfor %}
+              </select>
+        </div>
+        <div class="col-md-6 text-right padding0">
+            {% if user|can_edit_target or user.is_impersonate %}
+
+            <b>Import into week from:</b>
+            <select id="importFromWeekSel" name="importWeekFrom" autocomplete="off">
+                  {% for w in weeks %}
+                  <option value="{{ w }}" {% if from_week.year == w.year and from_week.week == w.week %}selected{% endif %}>{{ w.sunday }}</option>
+                  {% endfor %}
+            </select>
+            <b>to:</b>
+            <select id="importToWeekSel" name="importWeekTo" autocomplete="off">
+                  {% for w in weeks %}
+                  <option value="{{ w }}" {% if to_week.year == w.year and to_week.week == w.week %}selected{% endif %}>{{ w.sunday }}</option>
+                  {% endfor %}
+            </select>
+            <input type="button" id="importWeekBtn" class="btn btn-primary" value="Import" />
+            {% endif %}
+        </div>
+    </div>
+
+    <br>
+      <form autocomplete="off">
+      <table class="ntable" cellpadding="0" cellspacing="0">
+          <tr class="head">
+
+              <td>#</td>
+              <td>Number</td>
+              <td></td>
+              <td class="text-center">Target</td>
+              <td>Description</td>
+
+          </tr>
+          {% for number in numbers %}
+          <tr>
+              <td class="bggray">{{ forloop.counter }}</td>
+              <td class="bggray">{{ number.name }}</td>
+              <td class="text-right">{{ number.target_symbol|default:"" }}</td>
+              <td class="text-center">
+                {% if number.is_target_formula %}
+                  <span>Auto calculated</span>
+                {% else %}
+                {% if number.number_type == 2 %}
+                        <select data-type="{{ number.number_type }}" data-number="{{ number.id }}" data-week="{{ week }}" class="input-target" autocomplete="off">
+                            <option name="1" value="1" {% if number.value != None %} {% if number.value.target_value == "1" %} selected {% endif %} {% endif %}>Yes</option>
+                            <option name="0" value="0" {% if number.value != None %} {% if number.value.target_value == "0" %} selected {% endif %} {% endif %}>No</option>
+                            <option name="2" value="2" {% if number.value != None %} {% if number.value.target_value == "2" %} selected {% endif %} {% endif %}>Payment Plan</option>
+
+                        </select>
+                  {% else %}
+                  <input class="input-target" size="10" {% if user|can_edit_target or user.is_impersonate  %}{%else%}readonly{% endif %} autocomplete="off"
+                         data-type="{{ number.number_type }}" data-number="{{ number.id }}" data-week="{{ week }}" type="text" value="{% if number.value != None %}{{ number.value.target_value|default_if_none:'' }}{% endif %}"/>
+                {% endif %}
+                {% endif %}
+
+              </td>
+              <td>{{ number.description }}</td>
+
+          </tr>
+
+          {% endfor %}
+
+      </table>
+      </form>
+
+      </div>
+</div>
+
+
+{% endblock %}

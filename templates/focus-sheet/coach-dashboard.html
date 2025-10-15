@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+{% load generic %}
+
+{% block scripts %}
+{% endblock %}
+
+{% block content %}
+<ul class="breadcrumb">
+    <li><a href="/">Home</a></li>
+    <li class="active">Focus Sheets</li>
+</ul>
+
+<br>
+
+<h3>Focus Sheet</h3>
+<br>
+
+<div>
+    <form action="" method="POST">
+    {% csrf_token %}
+    Week:&nbsp;
+    <select id="weekSel" name="week" autocomplete="off">
+        {% for w in weeks %}
+        <option class="selectable" value="{{ w }}" {% if week.year == w.year and week.week == w.week %}selected{% endif %}>{{ w.sunday }}
+        </option>
+        {% endfor %}
+    </select>
+
+    &nbsp;&nbsp;&nbsp;
+    Coach:&nbsp;
+    <select id="coachSel" name="coach" autocomplete="off">
+        {% for coach in coaches %}
+        <option class="selectable" value="{{ coach.id }}">{{ coach.full_name }}</option>
+        {% endfor %}
+    </select>
+
+    &nbsp;&nbsp;&nbsp;
+    <input class="btn btn-primary" type="submit" value="Submit">
+    </form>
+    {% if customers %}
+        <br><br>
+        <table class="table ntable">
+            <thead class="thead-dark">
+                <tr class="head">
+                    <td>
+                        Client
+                    </td>
+                    <td>
+                        KNR Week
+                    </td>
+                    <td>
+                        KNR Status
+                    </td>
+
+                    <td>
+                        Focus Week
+                    </td>
+
+                    <td>
+                        Focus Status
+                    </td>
+
+                    <td>
+                        Focus Goals Achieved
+                    </td>
+
+                    <td>
+                        Cashflow week
+                    </td>
+                    <td>
+                        Cashflow status
+                    </td>
+                </tr>
+            </thead>
+            {% for customer in customers %}
+            <tr>
+                <td><b>{{ customer.name }}</b></td>
+                <td>{{ customer.focus_data.week }}</td>
+                <td class="{{ customer.focus_data.numbers|focus_class }}">{{ customer.focus_data.numbers|focus_status }}</td>
+
+                <td>
+                    {{ customer.focus_data.week }}
+                </td>
+                <td class="{{ customer.focus_data.focus_status|focus_class }}">
+                    {{ customer.focus_data.focus_status|focus_status }}
+
+                </td>
+                <td>
+                    {{ customer.focus_data.focus_goals_achieved }}%
+                </td>
+
+                <td>{{ customer.focus_data.week }}</td>
+                <td class="{{ customer.focus_data.cashflow|focus_class }}">{{ customer.focus_data.cashflow|focus_status }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+
+
+    {% else %}
+    <div class="paddingtop5">
+        <b>No focus sheet data found.</b>
+    </div>
+    {% endif %}
+
+
+</div>
+{% endblock %}

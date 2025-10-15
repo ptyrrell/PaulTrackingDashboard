@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+{% load compress %}
+
+{% block scripts %}
+
+{% compress js %}
+<script language="javascript" src="/static/js/reports.js"></script>
+{% endcompress %}
+
+<script language="javascript" src="/static/js/Chart.Core.js"></script>
+<script language="javascript" src="/static/js/Chart.Line.js"></script>
+<script language="javascript" src="/static/js/Chart.Bar.js"></script>
+{% endblock %}
+
+{% block content %}
+<ul class="breadcrumb">
+    <li><a href="/">Home</a></li>
+    <li class="active">Reports</li>
+</ul>
+
+<h3>Key Group Completion Rates</h3>
+<br>
+
+<div>
+    Group:
+    <select id="groupSel" autocomplete="off">
+        {% for group in groups %}
+        <option value="{{ group.id }}">{{ group.name }}</option>
+        {% endfor %}
+    </select>
+</div>
+<br>
+
+<div>
+    Starting week:
+    <select id="startWeekSel" name="weeks" autocomplete="off">
+        {% for w in weeks %}
+        <option class="selectable" value="{{ w }}" {% if week.year == w.year and week.week == w.week %}selected{% endif %}>{{ w.sunday }}
+        </option>
+        {% endfor %}
+    </select>
+</div>
+
+<br>
+
+<ul class="nav nav-tabs">
+    <li class="active"><a aria-expanded="true" href="#home" data-toggle="tab">Reports Data</a></li>
+    <!--<li class=""><a aria-expanded="false" href="#profile" data-toggle="tab">Chart</a></li>-->
+</ul>
+
+<br>
+
+<div id="myTabContent" class="tab-content">
+
+
+    <div class="tab-pane fade active in" id="home">
+        <div id="data-container">
+
+        </div>
+
+    </div>
+
+    <div class="tab-pane fade" id="profile">
+        <h3>Visualise</h3>
+
+        <br>
+
+        <div class="row">
+            <div class="col-md-6">
+
+            </div>
+
+            <div class="col-md-3 text-right">
+                <div class="legend hidden text-right">
+                    Legend:&nbsp;&nbsp;<span class="legend-target">Target</span>&nbsp;&nbsp;&nbsp;<span
+                        class="legend-actual">Actual</span>
+                    <br><br>
+
+                    <div class="legend-description">
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+        <div id="chartContainer">
+
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

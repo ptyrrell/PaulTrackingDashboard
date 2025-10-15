@@ -1,0 +1,223 @@
+{% extends "base.html" %}
+{% load generic %}
+
+{% block scripts %}
+{% endblock %}
+
+{% block content %}
+<ul class="breadcrumb">
+    <li><a href="/">Home</a></li>
+    <li class="active">Focus Sheet Fill Data</li>
+</ul>
+
+<br>
+
+<h3>Focus Sheet Fill Data</h3>
+<br>
+
+<div>
+    <form action="" method="POST">
+        {% csrf_token %}
+
+
+        {% if form.errors %}
+        <div class="alert alert-dismissible alert-danger">
+            <ul>
+                {% for error in form.errors %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        {% endif %}
+
+
+        <div class="text-right">
+            {% if update %}
+            <input class="btn btn-primary bold" type="submit" value="Update">
+            {% else %}
+            <input class="btn btn-primary bold" type="submit" value="Submit">
+            {% endif %}
+
+        </div>
+
+        <br>
+
+        <table class="ntable focus-table">
+            <tr class="head">
+
+                <td colspan="4">&nbsp;</td>
+
+            </tr>
+
+            <tr>
+                <td class="bggray"><b>Week</b>:</td>
+                <td colspan="3"><select id="weekSel" name="week_index" autocomplete="off">
+
+                    {% for w in weeks %}
+                    <option class="selectable" value="{{ w }}" {% if form.week_index.value == w.isoformat %}selected{% endif %}{% if w.isoformat == week.isoformat and not form.week_index.value %}selected{% endif %}> {{ w.sunday}}
+                    </option>
+                    {% endfor %}
+                </select>
+                </td>
+
+            </tr>
+
+            <tr>
+                <td class="bggray"><b>{{ form.thing_learned.label }}</b></td>
+                <td colspan="3">{{ form.thing_learned }}</td>
+            </tr>
+
+            <tr class="head">
+                <td><b>Goal and Actions set for next period...</b></td>
+                <td><b>Achieved</b></td>
+                <td colspan="2"><b>Comments</b></td>
+            </tr>
+
+
+            <tr>
+                <td class="bggray"><b>{{ form.goal_1.label }}</b></td>
+                <td>{{ form.goal_1 }}</td>
+                <td>{{ form.goal_1_achieved }}</td>
+                <td>{{ form.goal_1_comments }}</td>
+
+            </tr>
+
+            <tr>
+                <td><b>{{ form.goal_2.label }}</b></td>
+                <td>{{ form.goal_2 }}</td>
+                <td>{{ form.goal_2_achieved }}</td>
+                <td>{{ form.goal_2_comments }}</td>
+
+            </tr>
+
+            <tr>
+                <td><b>{{ form.goal_3.label }}</b></td>
+                <td>{{ form.goal_3 }}</td>
+                <td>{{ form.goal_3_achieved }}</td>
+                <td>{{ form.goal_3_comments }}</td>
+
+            </tr>
+
+            <tr>
+                <td><b>{{ form.goal_4.label }}</b></td>
+                <td>{{ form.goal_4 }}</td>
+                <td>{{ form.goal_4_achieved }}</td>
+                <td>{{ form.goal_4_comments }}</td>
+            </tr>
+
+
+            <tr>
+                <td><b>{{ form.field_achievement.label }}</b></td>
+                <td colspan="3">{{ form.field_achievement }}</td>
+            </tr>
+
+            <tr>
+                <td><b>{{ form.field_challenge.label }}</b></td>
+                <td colspan="3">{{ form.field_challenge }}</td>
+            </tr>
+
+            <tr>
+                <td><b>{{ form.field_learnt.label }}</b></td>
+                <td colspan="3">{{ form.field_learnt }}</td>
+            </tr>
+
+            <tr>
+                <td><b>{{ form.field_focus.label }}</b></td>
+                <td colspan="3">{{ form.field_focus }}</td>
+            </tr>
+
+            <tr>
+                <td><b>{{ form.field_coach_help.label }}</b></td>
+                <td colspan="3">{{ form.field_coach_help }}</td>
+            </tr>
+
+            <tr class="head">
+                <td colspan="4">Briefly speaking...</td>
+            </tr>
+
+            <tr>
+                <td><b> {{ form.spent_hours.label }}</b></td>
+                <td colspan="3">{{ form.spent_hours }}</td>
+            </tr>
+
+            <tr>
+                <td><b>{{ form.motivation_percentage.label }}</b></td>
+                <td colspan="3">{{ form.motivation_percentage }}</td>
+            </tr>
+
+
+            <tr>
+                <td><b>{{ form.business_is.label }}</b></td>
+                <td colspan="3">{{ form.business_is }}</td>
+            </tr>
+
+            <tr class="head">
+                <td colspan="4">I have concentrated on...</td>
+            </tr>
+
+            <tr>
+                <td><b>{{ form.lead_generation.label }}</b></td>
+                <td colspan="3">{{ form.lead_generation }}</td>
+            </tr>
+
+            <tr>
+                <td><b>{{ form.conversion_rates.label }}</b></td>
+                <td colspan="3">{{ form.conversion_rates }}</td>
+            </tr>
+
+
+            <tr>
+                <td><b>{{ form.transactions_number.label }}</b></td>
+                <td colspan="3">{{ form.transactions_number }}</td>
+            </tr>
+
+
+            <tr>
+                <td><b>{{ form.avg_sale.label }}</b></td>
+                <td colspan="3">{{ form.avg_sale }}</td>
+            </tr>
+
+
+            <tr>
+                <td><b>{{ form.margins.label }}</b></td>
+                <td colspan="3">{{ form.margins }}</td>
+            </tr>
+
+
+            <tr class="head">
+                <td colspan="4">I have also worked on...</td>
+            </tr>
+
+            <tr>
+                <td><b>{{ form.testing.label }}</b></td>
+                <td colspan="3">{{ form.testing }}</td>
+            </tr>
+
+            <tr>
+                <td><b>{{ form.documenting.label }}</b></td>
+                <td colspan="3">{{ form.documenting }}</td>
+            </tr>
+
+            <tr>
+                <td><b>{{ form.training.label }}}</b></td>
+                <td colspan="3">{{ form.training }}</td>
+            </tr>
+
+            <tr>
+                <td><b>{{ form.new_marketing.label }}</b></td>
+                <td colspan="3">{{ form.new_marketing }}</td>
+            </tr>
+
+            <tr>
+                <td><b>{{ form.refining_delivery.label }}</b></td>
+                <td colspan="3">{{ form.refining_delivery }}</td>
+            </tr>
+
+
+        </table>
+
+    </form>
+
+</div>
+{% endblock %}

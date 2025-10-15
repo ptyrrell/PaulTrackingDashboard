@@ -1,0 +1,1 @@
+Current shell: /bin/zsh

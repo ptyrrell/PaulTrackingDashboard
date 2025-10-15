@@ -1,0 +1,229 @@
+{% extends "base.html" %}
+
+{% block scripts %}
+<script language="javascript" src="/static/js/calculators.js"></script>
+{% endblock %}
+
+{% block content %}
+<h2>Break even Analyzer</h2>
+<hr/>
+
+<div class="row">
+    <div class="col-md-9">
+
+        <div class="row">
+            <div class="col-md-6 padding0"><b>Input monthly expenses:</b></div>
+            <div class="col-md-4"><span class="nsymb">$</span><input autocomplete="off" class="input-numeric" type="text" value="0"
+                                          name="breakeven-v1"></div>
+            <div class="col-md-2 red">*</div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 padding0"><b>Input gross wages:</b></div>
+            <div class="col-md-4"><span class="nsymb">$</span><input autocomplete="off" class="input-numeric" type="text" value="0"
+                                          name="breakeven-v2"></div>
+            <div class="col-md-2 red">*</div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 padding0"><b>Input superannuation:</b></div>
+            <div class="col-md-4"><span class="nsymb">$</span><input autocomplete="off" class="input-numeric" type="text"
+                                          name="breakeven-v3"></div>
+            <div class="col-md-2 red"></div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 padding0"><b>Input profit:</b></div>
+            <div class="col-md-4"><span class="nsymb">$</span><input autocomplete="off" class="input-numeric" type="text" value="0"
+                                          name="breakeven-v4"></div>
+            <div class="col-md-2 red">*</div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 padding0"><b>Input cost of goods sold (COGS):</b></div>
+            <div class="col-md-4"><span class="nsymb">%</span><input autocomplete="off" class="input-numeric" type="text" value="0"
+                                          name="breakeven-v5"></div>
+            <div class="col-md-2 red">*</div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 padding0"><b>Input gross profit margin:</b></div>
+            <div class="col-md-4"><span class="nsymb">%</span><input autocomplete="off" class="input-numeric" type="text"
+                                          name="breakeven-v6"></div>
+            <div class="col-md-2 red"></div>
+        </div>
+
+        <hr>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="breakeven-result calc-result bold"></div>
+            </div>
+            <div class="col-md-6 text-right">
+                <button class="btn btn-danger btn-reset">Reset</button>
+                &nbsp;&nbsp;
+                <button class="breakeven-btn btn btn-primary">Calculate</button>
+            </div>
+        </div>
+
+        <br>
+
+        <div class="by-week-table">
+            <b>By Week:</b>
+            <table class="ntable">
+                <tr class="head">
+                    <td>Week</td>
+                    <td>Percentage share</td>
+                    <td>Break even income</td>
+                    <td>Actual takings</td>
+                    <td>Diff.</td>
+                </tr>
+
+                <tr>
+                    <td>One</td>
+                    <td><input autocomplete="off" class="wt input-numeric" size="7" type="text" name="wt1-ps"></td>
+                    <td><span class="wt1-bi"></span></td>
+                    <td><input autocomplete="off" class="wt input-numeric" size="7" type="text" name="wt1-a"></td>
+                    <td><span class="wt1-diff"></span></td>
+                </tr>
+                <tr>
+                    <td>Two</td>
+                    <td><input autocomplete="off" class="wt input-numeric" size="7" type="text" name="wt2-ps"></td>
+                    <td><span class="wt2-bi"></span></td>
+                    <td><input autocomplete="off" class="wt input-numeric" size="7" type="text" name="wt2-a"></td>
+                    <td><span class="wt2-diff"></span></td>
+                </tr>
+                <tr>
+                    <td>Three</td>
+                    <td><input autocomplete="off" class="wt input-numeric" size="7" type="text" name="wt3-ps"></td>
+                    <td><span class="wt3-bi"></span></td>
+                    <td><input autocomplete="off" class="wt input-numeric" size="7" type="text" name="wt3-a"></td>
+                    <td><span class="wt3-diff"></span></td>
+                </tr>
+                <tr>
+                    <td>Four</td>
+                    <td><input autocomplete="off" class="wt input-numeric" size="7" type="text" name="wt4-ps"></td>
+                    <td><span class="wt4-bi"></span></td>
+                    <td><input autocomplete="off" class="wt input-numeric" size="7" type="text" name="wt4-a"></td>
+                    <td><span class="wt4-diff"></span></td>
+                </tr>
+                <tr>
+                    <td><b>Month</b></td>
+                    <td><span class="wtm-ps"></span></td>
+                    <td><span class="wtm-bi"></span></td>
+                    <td><span class="wtm-a"></span></td>
+                    <td><span class="wtm-diff"></span></td>
+                </tr>
+            </table>
+
+            <b>COGS budget:</b>
+            <br>
+
+            <table class="ntable">
+                <tr class="head">
+                    <td>Week</td>
+                    <td>COGS</td>
+                    <td>Actual</td>
+                    <td>Diff.</td>
+                </tr>
+
+                <tr>
+                    <td>One</td>
+                    <td><span class="gogs1"></span></td>
+                    <td><input autocomplete="off" class="wt input-numeric" size="7" type="text" name="gogs1-a"></td>
+                    <td><span class="gogs1-diff"></span></td>
+                </tr>
+
+                <tr>
+                    <td>Two</td>
+                    <td><span class="gogs2"></span></td>
+                    <td><input autocomplete="off" class="wt input-numeric" size="7" type="text" name="gogs2-a"></td>
+                    <td><span class="gogs2-diff"></span></td>
+                </tr>
+
+                <tr>
+                    <td>Three</td>
+                    <td><span class="gogs3"></span></td>
+                    <td><input autocomplete="off" class="wt input-numeric" size="7" type="text" name="gogs3-a"></td>
+                    <td><span class="gogs3-diff"></span></td>
+                </tr>
+
+                <tr>
+                    <td>Four</td>
+                    <td><span class="gogs4"></span></td>
+                    <td><input autocomplete="off" class="wt input-numeric" size="7" type="text" name="gogs4-a"></td>
+                    <td><span class="gogs4-diff"></span></td>
+                </tr>
+
+                <tr>
+                    <td><b>Month</b></td>
+                    <td><span class="mgogs"></span></td>
+                    <td><span class="mgogs-a"></span></td>
+                    <td><span class="mgogs-diff"></span></td>
+                </tr>
+
+            </table>
+
+
+            <b>MINI P&L</b>
+            <br>
+
+            <table class="ntable">
+                <tr class="head">
+                    <td>Name</td>
+                    <td>Budget</td>
+                </tr>
+
+                <tr>
+                    <td>Sales</td>
+                    <td><span class="pl-sales"></span></td>
+                </tr>
+                <tr>
+                    <td>Less COGS</td>
+                    <td><span class="pl-gogs"></span></td>
+                </tr>
+
+                <tr>
+                    <td><b>Gross profit</b></td>
+                    <td><b><span class="pl-gprofit"></span></b></td>
+                </tr>
+                <tr>
+                    <td>Less expenses</td>
+                    <td><span class="pl-exp"></span></td>
+                </tr>
+                <tr>
+                    <td>Less wages</td>
+                    <td><span class="pl-wages"></span></td>
+                </tr>
+                <tr>
+                    <td>Less super</td>
+                    <td><span class="pl-sup"></span></td>
+                </tr>
+                <tr>
+                    <td><b>Net profit</b></td>
+                    <td><b><span class="pl-profit"></span></b></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <b>Steps:</b>
+        <ul>
+            <li>Step 1: Enter monthly expenses.</li>
+            <li>Step 2: Enter gross wages.</li>
+            <li>Step 3: Enter profit figure.</li>
+            <li>Step 4: Enter COGS as percentage.</li>
+            <li>Result: Break-even income figure for a month</li>
+            <li>Step 5: Enter percentage share of turnover.</li>
+            <li>Result: Break even income figures for each week</li>
+            <li>Result: COGS budget for each week and entire month</li>
+            <li>Step 6: Enter actual takings for each day.</li>
+            <li>Result: Difference between actual and target shows surplus/deficit</li>
+            <li>Step 7: Enter actual expenditure on COGS</li>
+        </ul>
+    </div>
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,187 @@
+{% extends "base.html" %}
+{% load groups %}
+
+{% block scripts %}
+<script language="javascript" src="/static/js/Chart.Core.js"></script>
+<script language="javascript" src="/static/js/Chart.Line.js"></script>
+
+<script language="javascript" src="/static/js/common.js"></script>
+<script>
+    $(function () {
+
+        var $form = $('[data-role=chart-form]'),
+            $noRecords = $('[data-role=no-records]');
+
+        $form.submit(function (event) {
+            event.preventDefault();
+
+            $.get('{% url 'earnings-api' %}', $form.serialize(), function (response) {
+                if (response.weeks) {
+                    KNRCommon.build_simple_chart(
+                        "#summaryChart",
+                        response.weeks,
+                        response.current_earnings,
+                        "Current Earnings",
+                        response.retained_earnings,
+                        "Retained Earnings"
+                    );
+                }
+                $noRecords[response.weeks ? 'hide' : 'show']();
+            });
+
+            return false;
+        });
+
+        $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+            var target = $(e.target).attr("href"); // activated tab
+
+            if (target == "#chart") {
+                $form.trigger('submit');
+            }
+        });
+
+        $('[data-role=quarter-select]').change(function (self) {
+            $('[data-role=filter-form]').submit();
+        });
+
+    });
+
+</script>
+
+{% endblock %}
+
+{% block content %}
+<ul class="breadcrumb">
+    <li><a href="/">Home</a></li>
+    <li class="active">Journey</li>
+    <li class="active">Earnings</li>
+</ul>
+
+
+<h2>Earnings</h2>
+
+<ul class="nav nav-tabs">
+    <li class="active"><a aria-expanded="true" href="#home" data-toggle="tab">Data</a></li>
+    <li class=""><a aria-expanded="false" href="#chart" data-toggle="tab">Chart</a></li>
+</ul>
+
+<br>
+
+
+{% if messages %}
+<div class="alert alert-dismissible alert-success">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    {% for message in messages %}
+    <span>{{ message }}</span>
+    {% endfor %}
+</div>
+{% endif %}
+
+<div id="root-tab" class="tab-content">
+    <div class="tab-pane fade active in" id="home">
+
+        <div class="row">
+            <div class="col-lg-6 padding0">
+
+                Date:
+                <form data-role="filter-form">
+                    <select name="quarter" class="form-control" data-role="quarter-select">
+                        {% for quarter in start_quarters %}
+                            <option {% if quarter.is_current %}selected{% endif %}
+                                    value="{{ quarter.value }}">
+                                {{ quarter.label }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </form>
+
+                <hr />
+
+                <form class="form-horizontal" method="post">
+
+                    <fieldset>
+                        {{ form.errors }}
+                        {% csrf_token %}
+
+                        <div class="paddingtop5">
+                            Retained Earnigns:
+                            <input class="form-control" name="{{ form.retained_earnings.name }}"
+                                   value="{{ form.retained_earnings.value }}">
+                        </div>
+
+                        <div class="paddingtop5">
+                            Current Earnings:
+                            <input class="form-control" name="{{ form.current_earnings.name }}"
+                                   value="{{ form.current_earnings.value }}">
+                        </div>
+
+                        <div class="paddingtop5">
+                            <input type="submit" class="btn btn-primary" value="Save"/>
+                        </div>
+
+                    </fieldset>
+                </form>
+
+
+                {% if values %}
+                <hr>
+                <table class="ntable">
+                    <tr class="head">
+                        <td>Date</td>
+                        <td>Current Earnings</td>
+                        <td>Retained Earnings</td>
+                    </tr>
+                {% for value in values %}
+                    <tr>
+                        <td>{{ value.date }}</td>
+                        <td>{{ value.current_earnings }}</td>
+                        <td>{{ value.retained_earnings }}</td>
+                    </tr>
+                {% endfor %}
+                </table>
+                {% endif %}
+
+            </div>
+            <div class="col-lg-6">
+            </div>
+
+        </div>
+
+
+    </div>
+
+    <div class="tab-pane fade" id="chart">
+
+        <form data-role="chart-form">
+            Starting Week:
+            <select name="start_quarter">
+                {% for quarter in start_quarters %}
+                    <option {% if quarter.is_current %}selected{% endif %}
+                            value="{{ quarter.value }}">
+                        {{ quarter.label }}
+                    </option>
+                {% endfor %}
+            </select>
+            &nbsp;&nbsp;
+            End:
+            <select name="end_quarter">
+                {% for quarter in end_quarters %}
+                    <option {% if quarter.is_current %}selected{% endif %}
+                            value="{{ quarter.value }}">
+                        {{ quarter.label }}
+                    </option>
+                {% endfor %}
+            </select>
+            &nbsp;&nbsp;
+            <button type="submit" class="btn btn-primary btn-sm">
+                Build Chart
+            </button>
+        </form>
+
+        <br />
+        <div data-role="no-records" style="display: none;"><b>No data available.</b></div>
+        <div id="summaryChart"></div>
+    </div>
+
+</div>
+{% endblock %}}

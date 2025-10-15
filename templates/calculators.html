@@ -1,0 +1,913 @@
+{% extends "base.html" %}
+
+{% block scripts %}
+<script language="javascript" src="/static/js/calculators.js"></script>
+{% endblock %}
+
+{% block content %}
+<h2>Calculators</h2>
+<hr/>
+
+<div class="row">
+    <div class="col-md-3">
+        <ul>
+            <li><a class="calc-a" data-sel=".debt-ratio-calc" href="#">Debt Ratio</a></li>
+            <li><a class="calc-a" data-sel=".debt-income-ratio-calc" href="#">Debt to income ratio</a></li>
+            <li><a class="calc-a" data-sel=".int-cover-calc" href="#">Interest Cover</a></li>
+            <li><a class="calc-a" data-sel=".net-margin-calc" href="#">Net Profit Margin</a></li>
+            <li><a class="calc-a" data-sel=".gross-margin-calc" href="#">Gross Profit Margin</a></li>
+            <li><a class="calc-a" data-sel=".return-calc" href="#">Return on Assets</a></li>
+            <li><a class="calc-a" data-sel=".operating-calc" href="#">Operating Expenses to Sales</a></li>
+            <li><a class="calc-a" data-sel=".sales-emp-calc" href="#">Sales per employee</a></li>
+            <li><a class="calc-a" data-sel=".working-calc" href="#">Working Capital</a></li>
+            <li><a class="calc-a" data-sel=".quick-calc" href="#">Quick Assets Ratio</a></li>
+            <li><a class="calc-a" data-sel=".stock-calc" href="#">Stock Turnover</a></li>
+            <li><a class="calc-a" data-sel=".debtor-calc" href="#">Debtor ageing ratio</a></li>
+            <li><a class="calc-a" data-sel=".creditor-calc" href="#">Creditor ageing ratio</a></li>
+        </ul>
+
+    </div>
+    <div class="col-md-9">
+        <!-- debt ratio -->
+        <div class="debt-ratio-calc calc">
+            <h3>Debt Ratio</h3>
+
+            <p>The debt ratio gives an indication of the gearing level of your business.</p>
+            <p>To gauge your business' overall position you may need to combine the input figures if there
+                is more than one entity, for example if the assets are held in a different entity to the trading entity.</p>
+            <p>Use information from your business' annual balance sheet to input into the calculator.</p>
+            <p>For information on using this calculator see below.</p>
+
+            <div class="row">
+                <div class="col-md-6"><b>Input total assets amount:</b></div>
+                <div class="col-md-4">$<input autocomplete="off" class="input-numeric" type="text" value="0" name="debt-ratio-ass-am"></div>
+                <div class="col-md-2 red">*</div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6"><b>Input total liabilities amount:</b></div>
+                <div class="col-md-4">$<input autocomplete="off"  class="input-numeric" type="text" value="0" name="debt-ratio-lia-am"></div>
+                <div class="col-md-2 red">*</div>
+            </div>
+
+            <hr>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="debt-ratio-result calc-result bold"></div>
+                </div>
+                <div class="col-md-6 text-right">
+                    <button class="btn btn-danger btn-reset">Reset</button>&nbsp;&nbsp;<button class="debt-ratio-btn btn btn-primary">Calculate</button>
+                </div>
+            </div>
+
+            <br>
+
+            <p>The debt ratio gives an indication of
+                the level of debt to equity. The right level of debt for a business
+                depends on many factors. Some advantages of higher debt levels are:
+            </p>
+
+                <ul class="text1">
+                    <li class="text1">The deductibility of interest from business
+                    expenses can provide tax advantages.</li>
+                    <li class="text1">Returns on equity can be higher.</li>
+                    <li class="text1">Debt can provide a suitable source of capital
+                    to start or expand a business.</li>
+                </ul>
+
+            <p class="text1">Some disadvantages can be:</p>
+                <ul class="text1">
+                    <li>Sufficient cash flow is required to service a higher
+                    debt load. The need for this cash flow can place pressure
+                    on a business if income streams are erratic.
+                    </li>
+                    <li>Susceptibility to interest rate increases.</li>
+                    <li>Channelling cash flow to service debt may starve
+                    expenditure in other areas such as development which
+                    can be detrimental to overall survival of the business.
+                    </li>
+                </ul>
+
+            <p class="text1">The calculation used to obtain the ratio is:</p>
+            <div class="bold">Debt Ratio = (Total liabilities/Total assets) * 100</div>
+        </div>
+
+        <!-- debt to income -->
+        <div class="debt-income-ratio-calc calc">
+            <h3>Debt to Income Ratio</h3>
+
+            <p>The debt to income ratio gives an indication of the sustainability of the debt load of your business.</p>
+            <p>Use information from your business' annual profit and loss and balance sheet to input into the calculator.</p>
+            <p>For information on using this calculator see below.</p>
+
+            <div class="row">
+                <div class="col-md-6"><b>Input Sales:</b></div>
+                <div class="col-md-4">$<input autocomplete="off" class="input-numeric" type="text" value="0" name="debt-inc1"></div>
+                <div class="col-md-2 red">*</div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6"><b>Input Other Income:</b></div>
+                <div class="col-md-4">$<input autocomplete="off"  class="input-numeric" type="text" value="0" name="debt-inc2"></div>
+                <div class="col-md-2 red"></div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6"><b>Input Total Liabilities:</b></div>
+                <div class="col-md-4">$<input autocomplete="off"  class="input-numeric" type="text" value="0" name="debt-inc3"></div>
+                <div class="col-md-2 red">*</div>
+            </div>
+
+            <hr>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="debt-income-ratio-result calc-result bold"></div>
+                </div>
+                <div class="col-md-6 text-right">
+                    <button class="btn btn-danger btn-reset">Reset</button>&nbsp;&nbsp;<button class="debt-income-ratio-btn btn btn-primary">Calculate</button>
+                </div>
+            </div>
+
+            <br>
+            <p>
+                    The ability of a business to service debt depends on
+                    its income and cost structure. The debt to income ratio
+                    provides a simple measure of the total liabilities of a
+                    business compared to its income.
+            </p>
+            <p>
+                    Both the amount and the stability of income streams have a
+                    bearing on the level of sustainable debt. In general, larger
+                    business operations and those with stable cashflow can sustain
+                    higher debt ratios provided they have efficient costs structures.
+            </p>
+            <p>
+                    The debt to income ratio can be important in the risk management
+                    process of a business.
+            </p>
+            <p>
+                    Ratios should be considered over a period of time (say three years),
+                    in order to identify trends in the performance of the business. You
+                    should seek professional advice to fully analyse the debt to income
+                    ratio.
+            </p>
+            <p>
+                     The calculation used to obtain the ratio is:
+            </p>
+
+            <div class="bold">
+                Debt to Income = Total Liabilities / Total Income
+            </div>
+        </div>
+
+        <!-- interest cover -->
+        <div class="int-cover-calc calc">
+            <h3>Interest Cover</h3>
+
+            <p>The interest cover ratio gives an indication of the ability of your business to meet ongoing interest bills and therefore service debt.</p>
+            <p>Use information from your business' annual profit and loss statements to input into the calculator.</p>
+            <p>For information on using this calculator see below.</p>
+
+            <div class="row">
+                <div class="col-md-6"><b>Input Sales:</b></div>
+                <div class="col-md-4">$<input autocomplete="off" class="input-numeric" type="text" value="0" name="inc-cv1"></div>
+                <div class="col-md-2 red">*</div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6"><b>Input Other Income:</b></div>
+                <div class="col-md-4">$<input autocomplete="off"  class="input-numeric" type="text" value="0" name="inc-cv2"></div>
+                <div class="col-md-2 red"></div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6"><b>Input Total Liabilities:</b></div>
+                <div class="col-md-4">$<input autocomplete="off"  class="input-numeric" type="text" value="0" name="inc-cv3"></div>
+                <div class="col-md-2 red">*</div>
+            </div>
+
+            <hr>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="inc-cv-result calc-result bold"></div>
+                </div>
+                <div class="col-md-6 text-right">
+                    <button class="btn btn-danger btn-reset">Reset</button>&nbsp;&nbsp;<button class="inc-cv-btn btn btn-primary">Calculate</button>
+                </div>
+            </div>
+
+            <br>
+
+            <p>The following ranges are a general guide only.
+                <ul class="text1">
+                    <li>Above 2:1 indicates a good interest cover position.</li>
+                    <li>Between 1.5 to 2:1 indicates average interest cover.</li>
+                    <li>Between 1.0 to 1.5:1 indicates some weakness that may
+                        require attention.<br></li>
+                    <li>Below 1 indicates that interest cover is insufficient
+                    to cover ongoing finance expenses.</li>
+                </ul>
+            </p>
+            <p>
+                Ratios should be considered over a period of time (say three years), in order to identify trends in the performance of the business.
+            </p>
+
+            <p>
+                The calculation used to obtain the ratio is:
+            </p>
+
+            <div class="bold">
+                Interest Cover Ratio = (Net profit before tax + Finance expenses)/Finance expenses
+            </div>
+
+        </div>
+
+        <!-- Net Profit Margin -->
+        <div class="net-margin-calc calc">
+            <h3>Net Profit Margin</h3>
+
+            <p>
+                For a business to survive in the long term it must generate profit.
+                Therefore the net profit margin ratio is one of the key performance
+                indicators for your business.
+            </p>
+            <p>Use information from your business' annual profit and loss statements to input into the calculator.</p>
+            <p>For information on using this calculator see below.</p>
+
+            <div class="row">
+                <div class="col-md-6"><b>Input your sales amount:</b></div>
+                <div class="col-md-4">$<input autocomplete="off" class="input-numeric" type="text" value="0" name="net-m1"></div>
+                <div class="col-md-2 red">*</div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6"><b>Input your net profit before Tax amount:</b></div>
+                <div class="col-md-4">$<input autocomplete="off"  class="input-numeric" type="text" value="0" name="net-m2"></div>
+                <div class="col-md-2 red">*</div>
+            </div>
+
+            <hr>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="net-margin-result calc-result bold"></div>
+                </div>
+                <div class="col-md-6 text-right">
+                    <button class="btn btn-danger btn-reset">Reset</button>&nbsp;&nbsp;<button class="net-margin-btn btn btn-primary">Calculate</button>
+                </div>
+            </div>
+
+            <br>
+
+            <p>
+                The net profit margin ratio indicates profit levels of a
+                business after all costs have been taken into account.
+            </p>
+            <p>
+                It is worth analysing the ratio over time. A variation in the
+                ratio from year to year may be due to abnormal conditions or
+                expenses. Variations may also indicate cost blowouts which
+                need to be addressed.
+            </p>
+            <p>
+                A decline in the ratio over time may indicate a margin squeeze
+                suggesting that productivity improvements may need to be
+                initiated. In some cases, the costs of such improvements may
+                lead to a further drop in the ratio or even losses before
+                increased profitability is achieved.
+            </p>
+            <p>
+                The net profit margin ratio indicates profit levels of a
+                business after all costs have been taken into account.
+            </p>
+            <p>
+                It is worth analysing the ratio over time. A variation in the
+                ratio from year to year may be due to abnormal conditions or
+                expenses. Variations may also indicate cost blowouts which
+                need to be addressed.
+            </p>
+            <p>
+                A decline in the ratio over time may indicate a margin squeeze
+                suggesting that productivity improvements may need to be
+                initiated. In some cases, the costs of such improvements may
+                lead to a further drop in the ratio or even losses before
+                increased profitability is achieved.
+            </p>
+            <p>The calculation used to obtain the ratio is:</p>
+
+            <div class="bold">
+                Net Profit Margin = (Net Profit/Sales) * 100
+            </div>
+
+        </div>
+
+        <!-- Gross Profit Margin -->
+        <div class="gross-margin-calc calc">
+            <h3>Gross Profit Margin</h3>
+            <p>
+                Your business' gross profit
+                margin is one of its key performance indicators.  The gross
+                profit margin gives an indication on whether the average
+                mark up on goods and services is sufficient to cover expenses
+                and make profit.
+            </p>
+            <p>Use information from your business' annual profit and loss statements to input into the calculator.</p>
+            <p>For information on using this calculator see below.<p>
+
+            <div class="row">
+                <div class="col-md-6"><b>Input your sales amount:</b></div>
+                <div class="col-md-4">$<input autocomplete="off" class="input-numeric" type="text" value="0" name="gross-m1"></div>
+                <div class="col-md-2 red">*</div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6"><b>Input your gross profit amount:</b></div>
+                <div class="col-md-4">$<input autocomplete="off"  class="input-numeric" type="text" value="0" name="gross-m2"></div>
+                <div class="col-md-2 red">*</div>
+            </div>
+
+            <hr>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="gross-margin-result calc-result bold"></div>
+                </div>
+                <div class="col-md-6 text-right">
+                    <button class="btn btn-danger btn-reset">Reset</button>&nbsp;&nbsp;<button class="gross-margin-btn btn btn-primary">Calculate</button>
+                </div>
+            </div>
+
+            <br>
+            <p>
+                The gross profit margin should be stable over time.
+                A persistent gradual decrease is likely to indicate that productivity
+                needs to be increased to return profitability back to previous levels.
+            </p>
+
+            <p>The calculation used to obtain the ratio is:</p>
+            <div class="bold">
+                Gross Profit Margin = (Gross Profit/Sales) * 100
+            </div>
+        </div>
+
+        <!-- Return on Assets -->
+        <div class="return-calc calc">
+            <h3>Return on Assets</h3>
+
+            <p>The return on assets ratio indicates how effectively the assets of your business are working to generate profit.</p>
+            <p>Use information from your business' annual profit and loss statements and balance sheet to input into the calculator.</p>
+            <p>For information on using this calculator see below.</p>
+
+            <div class="row">
+                <div class="col-md-6"><b>Input your net profit before Tax:</b></div>
+                <div class="col-md-4">$<input autocomplete="off" class="input-numeric" type="text" value="0" name="return-v1"></div>
+                <div class="col-md-2 red">*</div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6"><b>Input total assets:</b></div>
+                <div class="col-md-4">$<input autocomplete="off"  class="input-numeric" type="text" value="0" name="return-v2"></div>
+                <div class="col-md-2 red">*</div>
+            </div>
+
+            <hr>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="return-result calc-result bold"></div>
+                </div>
+                <div class="col-md-6 text-right">
+                    <button class="btn btn-danger btn-reset">Reset</button>&nbsp;&nbsp;<button class="return-btn btn btn-primary">Calculate</button>
+                </div>
+            </div>
+
+            <br>
+            <p>
+                This ratio gives an indication of the
+                effectiveness of your business in generating a profit.
+                The higher the ratio the greater the return on assets.
+                However this has to be balanced against such factors as risk,
+                sustainability and reinvestment in the business through
+                development costs.
+            </p>
+
+            <p>The calculation used to obtain the ratio is:</p>
+
+            <div class="bold">
+                Return on Total Assets = (Net Profit Before Tax / Total Assets) * 100
+            </div>
+
+        </div>
+
+        <!-- Operating Expenses to Sales -->
+        <div class="operating-calc calc">
+            <h3>Operating Expenses to Sales</h3>
+
+            <p>
+                The operating expenses to sales ratio gives an
+                indication of the efficiency of the cost structure of your
+                business.
+            </p>
+            <p>
+                Use information from your business' annual profit and
+                loss statement to input into the calculator.
+            </p>
+            <p>
+                For information on using this calculator see below.
+            </p>
+
+            <div class="row">
+                <div class="col-md-6"><b>Sales:</b></div>
+                <div class="col-md-4">$<input autocomplete="off" class="input-numeric" type="text" value="0" name="operating-v1"></div>
+                <div class="col-md-2 red">*</div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6"><b>Cost of Goods:</b></div>
+                <div class="col-md-4">$<input autocomplete="off"  class="input-numeric" type="text" value="0" name="operating-v2"></div>
+                <div class="col-md-2 red"></div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6"><b>Input Deprecation:</b></div>
+                <div class="col-md-4">$<input autocomplete="off" class="input-numeric" type="text" value="0" name="operating-v3"></div>
+                <div class="col-md-2 red"></div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6"><b>Input Interest Expense:</b></div>
+                <div class="col-md-4">$<input autocomplete="off"  class="input-numeric" type="text" value="0" name="operating-v4"></div>
+                <div class="col-md-2 red"></div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6"><b>Input Lease Expense:</b></div>
+                <div class="col-md-4">$<input autocomplete="off" class="input-numeric" type="text" value="0" name="operating-v5"></div>
+                <div class="col-md-2 red"></div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6"><b>Total Expenses:</b></div>
+                <div class="col-md-4">$<input autocomplete="off"  class="input-numeric" type="text" value="0" name="operating-v6"></div>
+                <div class="col-md-2 red">*</div>
+            </div>
+
+            <hr>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="operating-result calc-result bold"></div>
+                </div>
+                <div class="col-md-6 text-right">
+                    <button class="btn btn-danger btn-reset">Reset</button>&nbsp;&nbsp;<button class="operating-btn btn btn-primary">Calculate</button>
+                </div>
+            </div>
+
+            <br>
+            <p>
+                The operating expenses to sales ratio provides an efficiency
+                measure of the cost structure of a business.
+                It gives an indication  of the ability of a business
+                to convert income into profit. Businesses with low ratios
+                will generate more profit than others.
+            </p>
+            <p>
+                In general business operations with larger and more stable
+                cashflow can sustain higher ratios than smaller and less
+                stable operations. Scale and income stability are important
+                considerations though it is up to the management of a business
+                to monitor costs in an appropriate manner whatever its size.
+            </p>
+            <p>
+                There should be a balance between reducing or maintaining tight
+                control of running costs in the short term and reinvestment in
+                the future. This balance needs to be considered in terms of the
+                current needs and strategy of the business and where it is
+                heading in the medium to long term. You should seek professional
+                advice in considering these issues and this ratio.
+            </p>
+            <p>
+                Ratios should be considered over a period of time (say three
+                years), in order to identify trends in the performance of the
+                business.
+            </p>
+
+            <p>The calculation used to obtain the ratio is:</p>
+
+            <div class="bold">
+                Operating Expenses to Sales = (Cost of Goods Sold + Total Expenses - (Finance + Depreciation))/Sales * 100
+            </div>
+        </div>
+
+        <!-- Sales per employee -->
+        <div class="sales-emp-calc calc">
+            <h3>Sales per employee</h3>
+
+            <p>This ratio compares the dollar volume of sales against the total full time employee equivalent of people working in the business.</p>
+            <p>Use information from your business' annual profit and loss statement and your employee records for that year to input into the calculator.</p>
+            <p>For information on using this calculator see below.</p>
+
+            <div class="row">
+                <div class="col-md-7"><b>Input Sales:</b></div>
+                <div class="col-md-4">$<input autocomplete="off" class="input-numeric" type="text" value="0" name="sales-emp-v1"></div>
+                <div class="col-md-1 red">*</div>
+            </div>
+            <div class="row">
+                <div class="col-md-7"><b>Input Average Number of Full Time Employees:</b></div>
+                <div class="col-md-4"><input autocomplete="off"  class="input-numeric" type="text" value="0" name="sales-emp-v2"></div>
+                <div class="col-md-1 red"></div>
+            </div>
+            <div class="row">
+                <div class="col-md-7"><b>Input Average Number of Part Time Employees:</b></div>
+                <div class="col-md-4"><input autocomplete="off"  class="input-numeric" type="text" value="0" name="sales-emp-v3"></div>
+                <div class="col-md-1 red"></div>
+            </div>
+            <div class="row">
+                <div class="col-md-7"><b>Input Total average weekly hours worked for all part timers:</b></div>
+                <div class="col-md-4"><input autocomplete="off"  class="input-numeric" type="text" value="0" name="sales-emp-v4"></div>
+                <div class="col-md-1 red"></div>
+            </div>
+            <div class="row">
+                <div class="col-md-7"><b>Number of owners/directors:</b></div>
+                <div class="col-md-4"><input autocomplete="off"  class="input-numeric" type="text" value="0" name="sales-emp-v5"></div>
+                <div class="col-md-1 red"></div>
+            </div>
+
+            <hr>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="sales-emp-result calc-result bold"></div>
+                </div>
+                <div class="col-md-6 text-right">
+                    <button class="btn btn-danger btn-reset">Reset</button>&nbsp;&nbsp;<button class="sales-emp-btn btn btn-primary">Calculate</button>
+                </div>
+            </div>
+
+            <br>
+            <p>
+                You will need to consider whether people are employed on a full
+                time or part time basis when using the calculator. For example,
+                the number of people employed in a business could amount to 3.6
+                including 2 owners, one full time employee and one part time.
+            </p>
+            <p>
+                If you have part time employees, the calculator estimates the
+                number of full time equivalents based on a 40 hour week.
+            </p>
+            <p>
+                The ratio provides a useful productivity measure. It can be used
+                to assist monitor ongoing performance. It can also assist
+                determine the level of sales that a business needs to generate
+                when increasing staffing levels.
+            </p>
+            <p>
+                It is worth considering the role of employees when using the
+                ratio. The degree of specialisation of employees tends to
+                increase with larger businesses. Different employees will
+                undertake varying roles such as sales, production,
+                administration or management. Personnel directly involved in
+                sales will tend to have a stronger influence on the ratio than
+                those in other roles.
+            </p>
+            <p>
+                Ratios should be considered over a period of time (say three
+                years), in order to identify trends in the performance of the
+                business. You should seek professional advice when analysing or
+                acting upon this ratio.
+            </p>
+            <p>
+                The calculation used to obtain the ratio is:
+            </p>
+
+            <div class="bold">
+                Sales per Employee = Sales / No. of people employed (owners & employees)
+            </div>
+        </div>
+
+        <!-- Working Capital -->
+        <div class="working-calc calc">
+            <h3>Working Capital</h3>
+
+            <p>The working capital ratio can give an indication of the ability of your business to pay its bills.</p>
+            <p>Use information from your business' annual balance sheet to input into the calculator.</p>
+            <p>For information on using this calculator see below.</p>
+
+            <div class="row">
+                <div class="col-md-6"><b>Input current assets amount:</b></div>
+                <div class="col-md-4">$<input autocomplete="off" class="input-numeric" type="text" value="0" name="working-v1"></div>
+                <div class="col-md-2 red">*</div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6"><b>Input current liabilities amount:</b></div>
+                <div class="col-md-4">$<input autocomplete="off"  class="input-numeric" type="text" value="0" name="working-v2"></div>
+                <div class="col-md-2 red">*</div>
+            </div>
+
+            <hr>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="working-result calc-result bold"></div>
+                </div>
+                <div class="col-md-6 text-right">
+                    <button class="btn btn-danger btn-reset">Reset</button>&nbsp;&nbsp;<button class="working-btn btn btn-primary">Calculate</button>
+                </div>
+            </div>
+            <br>
+
+            <p>
+                Generally a working capital ratio
+            of 2:1 is regarded as desirable. However the circumstances
+            of every business vary and you should consider how your
+            business operates and set an appropriate benchmark ratio.
+            </p>
+
+
+            <p>
+                A stronger ratio indicates a better ability to meet
+            ongoing and unexpected bills therefore taking the pressure off your
+            cash flow. Being in a liquid position can also have
+            advantages such as being able to negotiate cash discounts
+            with your suppliers.
+            </p>
+
+            <p>
+                A weaker ratio may indicate that your business
+            is having greater difficulties meeting its short-term commitments
+            and that additional working capital support is required.
+            Having to pay bills before payments are received
+            may be the issue in which case an
+
+            overdraft could assist. Alternatively building up a reserve of cash
+            investments may create a sound working capital buffer.
+            </p>
+
+            <p>
+                Ratios should be considered over a period of time
+            (say three years), in order to identify trends in the performance
+            of the business.
+            </p>
+
+            <p>The calculation used to obtain the ratio is:</p>
+            <div class="bold">
+                 Working Capital Ratio = Current Assets / Current Liabilities
+            </div>
+
+        </div>
+
+        <!-- Quick Assets Ratio -->
+        <div class="quick-calc calc">
+            <h3>Quick Assets Ratio</h3>
+
+            <p>The quick assets ratio gives an indication of the level of liquid assets that can be used to meet short term liabilities.</p>
+            <p>Use information from your business' annual balance sheet statement to input into the calculator.</p>
+            <p>For information on using this calculator see below.</p>
+
+            <div class="row">
+                <div class="col-md-6"><b>Input Stock:</b></div>
+                <div class="col-md-4">$<input autocomplete="off" class="input-numeric" type="text" value="0" name="quick-v1"></div>
+                <div class="col-md-2 red">*</div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6"><b>Input current assets:</b></div>
+                <div class="col-md-4">$<input autocomplete="off"  class="input-numeric" type="text" value="0" name="quick-v2"></div>
+                <div class="col-md-2 red">*</div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6"><b>Input current liabilities:</b></div>
+                <div class="col-md-4">$<input autocomplete="off"  class="input-numeric" type="text" value="0" name="quick-v3"></div>
+                <div class="col-md-2 red">*</div>
+            </div>
+
+            <hr>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="quick-result calc-result bold"></div>
+                </div>
+                <div class="col-md-6 text-right">
+                    <button class="btn btn-danger btn-reset">Reset</button>&nbsp;&nbsp;<button class="quick-btn btn btn-primary">Calculate</button>
+                </div>
+            </div>
+            <br>
+
+            <p>
+                The quick assets ratio provides a more conservative measure
+                than the working capital ratio in that it excludes stock
+                (inventory). A ratio greater than 1:1 (i.e. 2:1) indicates that
+                current liabilities can be met from current assets without
+                having to liquidate stock.
+            </p>
+            <p>
+                Ratios should be considered over a period of time (say three
+                years), in order to identify trends in the performance of the
+                business.
+            </p>
+            <p>
+                The calculation used to obtain the ratio is:
+            </p>
+
+            <div class="bold">
+                Quick Assets Ratio = (Current Assets - Stock) / Current Liabilities
+            </div>
+
+
+        </div>
+
+        <!-- Stock Turnover -->
+        <div class="stock-calc calc">
+            <h3>Stock Turnover</h3>
+
+            <p>The stock turnover ratio indicates how quickly your business is turning over stock.</p>
+            <p>Use information from your business' annual profit and loss statements and balance sheet to input into the calculator.</p>
+            <p>For information on using this calculator see below.</p>
+
+            <div class="row">
+                <div class="col-md-6"><b>Input cost of goods sold:</b></div>
+                <div class="col-md-4">$<input autocomplete="off" class="input-numeric" type="text" value="0" name="stock-v1"></div>
+                <div class="col-md-2 red">*</div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6"><b>Input opening stock:</b></div>
+                <div class="col-md-4">$<input autocomplete="off"  class="input-numeric" type="text" value="0" name="stock-v2"></div>
+                <div class="col-md-2 red">*</div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6"><b>Input closing stock:</b></div>
+                <div class="col-md-4">$<input autocomplete="off"  class="input-numeric" type="text" value="0" name="stock-v3"></div>
+                <div class="col-md-2 red">*</div>
+            </div>
+
+            <hr>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="stock-result calc-result bold"></div>
+                </div>
+                <div class="col-md-6 text-right">
+                    <button class="btn btn-danger btn-reset">Reset</button>&nbsp;&nbsp;<button class="stock-btn btn btn-primary">Calculate</button>
+                </div>
+            </div>
+            <br>
+
+            <p>
+                A high ratio may indicate positive factors
+                such as good stock demand and management. A low ratio may
+                indicate that either stock is naturally slow moving or
+                problems such as the presence of obsolete stock or good
+                presentation.
+
+                A low ratio can also be indicative of potential stock
+                valuation issues.
+                It is a good idea to monitor the ratio over
+                consecutive financial years to determine if a trend is
+                developing.
+            </p>
+            <p>
+                It can be useful to compare this financial
+                ratio with the working capital ratio. For example business operations
+                with low stock turnover tend to require higher working capital.
+            </p>
+            <p>
+                The calculation used to obtain the ratio is:
+            </p>
+            <div class="bold">
+                 Stock Turnover Ratio = Cost of Goods / Average Stock
+            </div>
+
+        </div>
+
+        <!-- Debtor Ageing Ratio -->
+        <div class="debtor-calc calc">
+            <h3>Debtor Ageing Ratio</h3>
+            <p>
+                The debtor ageing ratio indicates the average time it takes your
+                business to collect its debts.  It's worth looking at this
+                ratio over a number of financial years to monitor performance
+                trends.
+            </p>
+            <p>
+                Use information from your annual profit and loss statement along with
+                the trade debtors figure from your balance sheet for that financial
+                year to calculate this ratio.
+            </p>
+            <p>
+                For information on using this calculator see below.
+            </p>
+
+            <div class="row">
+                <div class="col-md-6"><b>Input trade debtors amount:</b></div>
+                <div class="col-md-4">$<input autocomplete="off" class="input-numeric" type="text" value="0" name="debtor-v1"></div>
+                <div class="col-md-2 red">*</div>
+            </div>
+            <div class="row">
+                <div class="col-md-6"><b>Input sales amount:</b></div>
+                <div class="col-md-4">$<input autocomplete="off"  class="input-numeric" type="text" value="0" name="debtor-v2"></div>
+                <div class="col-md-2 red">*</div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="debtor-result calc-result bold"></div>
+                </div>
+                <div class="col-md-6 text-right">
+                    <button class="btn btn-danger btn-reset">Reset</button>&nbsp;&nbsp;<button class="debtor-btn btn btn-primary">Calculate</button>
+                </div>
+            </div>
+            <br>
+
+            <p>A ratio that is lengthening can be the
+                result of some debtors slowing down in their payments.
+                Economic factors, such as a recession, can also influence
+                the ratio. Tightening your business' credit control
+                procedures may be required in these circumstances.
+            </p>
+            <p>
+                The debtor ageing ratio has a strong impact on
+            business operations particularly working capital. Maintaining
+            a running total of your debtors by ageing (eg. current,
+            30 days, 60 days, 90 days) is a good idea, not just in
+            terms of making sure you are getting paid for the work or
+            goods you are supplying but also in managing your working capital.
+            </p>
+            <p>
+                The calculation used to obtain the ratio is:
+            </p>
+
+            <div class="bold">
+                Debtor Ageing Ratio (in days) = (Trade debtors / Sales) * 365
+            </div>
+
+        </div>
+
+        <!-- Creditor ageing ratio -->
+        <div class="creditor-calc calc">
+            <h3>Creditor ageing ratio</h3>
+            <p>
+                The creditor ageing ratio indicates the average time it
+                takes for your business to pay its bills.
+            </p>
+            <p>
+                Use information from your annual
+                profit and loss statement along with
+                the trade creditors figure from your balance sheet for that
+                financial year to calculate this ratio.
+            </p>
+            <p>
+                For information on using this calculator see below.
+            </p>
+            <div class="row">
+                <div class="col-md-6"><b>Input trade creditors amount:</b></div>
+                <div class="col-md-4">$<input autocomplete="off" class="input-numeric" type="text" value="0" name="creditor-v1"></div>
+                <div class="col-md-2 red">*</div>
+            </div>
+            <div class="row">
+                <div class="col-md-6"><b>Input purchases amount:</b></div>
+                <div class="col-md-4">$<input autocomplete="off"  class="input-numeric" type="text" value="0" name="creditor-v2"></div>
+                <div class="col-md-2 red">*</div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="creditor-result calc-result bold"></div>
+                </div>
+                <div class="col-md-6 text-right">
+                    <button class="btn btn-danger btn-reset">Reset</button>&nbsp;&nbsp;<button class="creditor-btn btn btn-primary">Calculate</button>
+                </div>
+            </div>
+            <br>
+            <p>
+                This ratio provides an indication
+                of the average time it takes for your business to pay its bills. It's
+                worth looking at the figure over a number of financial years
+                to see if a trend is developing. A lengthening in the ratio
+                could indicate a problem with working capital, such as
+                decreasing stock turnover or slower debt collection.
+            </p>
+            <p>
+                The calculation used to obtain the ratio is:
+            </p>
+
+            <div class="bold">
+                Creditor Ageing Ratio (in days) = (Trade Creditors / Purchases ) * 365
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<br>
+<p>
+    NOTE: The calculator is provided for illustrative purposes only and the calculations are based on the accuracy of the information provided by you. The information about the calculators and the results of the calculations are necessarily general and are only intended as a guide. When deciding on what your business will do, many factors need to be considered, including your business' situation and financial position.
+</p>
+{% endblock %}

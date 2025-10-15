@@ -1,0 +1,163 @@
+{% extends "base.html" %}
+{% load groups %}
+{% load compress %}
+
+{% block scripts %}
+
+{% compress js %}
+<script src="/static/js/jquery-ui.min.js"></script>
+<script src="/static/js/angular.sortable.js"></script>
+<script src="/static/js/cashflow.js"></script>
+{% endcompress %}
+
+<script language="javascript" src="/static/js/Chart.Core.js"></script>
+<script language="javascript" src="/static/js/Chart.Line.js"></script>
+<script language="javascript" src="/static/js/Chart.Bar.js"></script>
+<script language="javascript" src="/static/js/Chart.Overlay.js"></script>
+
+{% compress css %}
+<link type="text/css" href="/static/css/cashflow.css" rel="stylesheet"/>
+{% endcompress %}
+
+{% endblock %}
+
+{% block content %}
+
+{% if not user|can_edit_cashflow and user.is_impersonate %}
+<div class="alert alert-dismissible alert-info">
+    <button type="button" class="close" data-dismiss="alert">×</button>
+    Coaching in Progress.
+</div>
+{% endif %}
+
+<div ng-app="knrgoals" id="cashflowTabs" class="cashflow-container" ng-controller="cashflow-controller" ng-init="init('{{ start_week }}', '{{ end_week }}')">
+
+    <div class="row paddingtop5">
+        <div class="col-md-6 padding0 cashflow-menu">
+
+            <a ng-class="activeCashType == 'summary' ? 'active' : '' " ng-click="loadSummaryData()"><b>Summary</b></a>&nbsp;
+            <a ng-class="activeCashType == 'in' ? 'active' : '' " ng-click="loadCashData('in')"><b>Cash In</b></a>&nbsp;
+            <a ng-class="activeCashType == 'out' ? 'active' : '' " ng-click="loadCashData('out')"><b>Cash Out</b></a>&nbsp;
+
+        </div>
+        <div class="col-md-6 text-right">
+            Start week:
+            <select ng-model="startWeek" autocomplete="off">
+                {% for w in weeks %}
+                <option value="{{ w }}" {% if start_week.year == w.year and start_week.week == w.week %}selected{% endif %}>{{ w.sunday }}</option>
+                {% endfor %}
+             </select>
+
+            End week:
+            <select ng-model="endWeek" autocomplete="off">
+                {% for w in weeks %}
+                <option value="{{ w }}" {% if end_week.year == w.year and end_week.week == w.week %}selected{% endif %}>{{ w.sunday }}</option>
+                {% endfor %}
+             </select>
+
+            <a class="btn btn-primary" ng-click="loadSummaryData()"><b>Read</b></a>
+        </div>
+    </div>
+
+
+    <div ng-show="summaryData != null">
+        <h3>Rolling weekly cashflow projection</h3>
+
+        {% verbatim %}
+        <table class="ntable">
+
+            <tr class="head"><td>Week Ended</td> <td ng-repeat="week in summaryData.weeks"> {{ week }}</td> <td>Total</td></tr>
+
+            <tr><td><b>Opening bank balance</b></td>
+
+                <td ng-repeat="(weekId, weekName) in summaryData.weeks">{{ summaryData.data[weekId].opening_balance }}</td>
+                <td>{{ getSummaryFieldTotal('opening_balance') }}</td>
+            </tr>
+
+            <tr><td><b>Cash In</b></td>
+                <td ng-repeat="(weekId, weekName) in summaryData.weeks">{{ summaryData.data[weekId].cash_in }}</td>
+                <td>{{ getSummaryFieldTotal('cash_in') }}</td>
+            </tr>
+
+
+            <tr><td><b>Cash Out</b></td>
+                <td ng-repeat="(weekId, weekName) in summaryData.weeks">{{ summaryData.data[weekId].cash_out }}</td>
+                <td>{{ getSummaryFieldTotal('cash_out') }}</td>
+            </tr>
+
+            <tr><td><b>Closing Bank Balance (Cash at Bank)</b></td>
+                <td ng-repeat="(weekId, weekName) in summaryData.weeks">{{ summaryData.data[weekId].closing_balance }}</td>
+                <td>{{ getSummaryFieldTotal('closing_balance') }}</td>
+            </tr>
+            <tr><td><b>Credit Limit</b></td>
+
+                <td ng-repeat="(weekId, weekName) in summaryData.weeks">{{ summaryData.data[weekId].credit_limit }}</td>
+                <td>{{ getSummaryFieldTotal('credit_limit') }}</td>
+            </tr>
+
+            <tr><td><b>Available Credit</b></td>
+                <td ng-repeat="(weekId, weekName) in summaryData.weeks">{{ summaryData.data[weekId].available_credit }}</td>
+                <td>{{ getSummaryFieldTotal('available_credit') }}</td>
+            </tr>
+
+            <tr>
+                <td>
+                <b>Total</b>
+                </td>
+                <td ng-repeat="(weekId, weekName) in summaryData.weeks">
+                    {{ getSummaryWeekField(weekId) }}
+                </td>
+                <td></td>
+            </tr>
+
+        </table>
+
+        <div class="text-right paddingtop5">
+            <a ng-href="/cashflow/export?startWeek={{ startWeek }}&endWeek={{ endWeek }}"><b>Export to Excel</b></a>
+        </div>
+
+        {% endverbatim %}
+        <div>
+            <h3>Cashflow Summary</h3>
+            <div id="summaryChart"></div>
+
+            <h3>Cash In VS Cash Out Trend</h3>
+            <div id="cashInOutChart"></div>
+        </div>
+    </div>
+
+    <div ng-show="cashData != null">
+
+        {% verbatim %}
+
+        <h3>Rolling weekly cashflow projections - CASH <span ng-model="actualCashType"></span></h3>
+
+        <div id="table-container-in">
+            <table class="ntable">
+            <thead>
+            <tr class="head"><td><span ng-show="activeCashType == 'in'">Cash In Source</span><span ng-show="activeCashType != 'in'">Cash Out Source</span></td><td ng-repeat="week in cashData.weeks"> {{ week.name }}</td> <td>Total</td><td></td></tr>
+            </thead>
+            <tbody ui-sortable="sortableOptions" ng-model="cashData.rows">
+                <tr ng-repeat="(i, debtor) in cashData.rows">
+                    <td><b>{{ debtor.name }}</b></td>
+                    <td ng-repeat="(j, week) in debtor.weeks"><input type="text" ng-keypress="cashKeypress($event, this, debtor)" ng-blur="updateDebtor(this, debtor)" ng-change="cashDataChange(this, debtor)" ng-model="cashData.rows[i].weeks[j].actual" value="{{ week.actual }}" size="8"></td>
+                    <td>{{ debtor.total }}</td>
+                    <td><a href="#" ng-click="removeDebtor(debtor)"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                </tr>
+            </tbody>
+
+            </table>
+        </div>
+        {% endverbatim %}
+        <hr>
+
+        <div class="">
+            <input type="text" ng-model="newDebtorName" ng-disabled="addingDebtor == true" placeholder="Source Name" autocomplete="off"/>
+            <a ng-click="addNewDebtor()" ng-disabled="addingDebtor == true" class="btn-cash-add btn btn-sm btn-success">+ Add New</a>
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

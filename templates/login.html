@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+{% block scripts %}
+<script src='https://www.google.com/recaptcha/api.js'></script>
+{% endblock %}
+
+{% block content %}
+<h2>Sign In</h2>
+
+<hr/>
+
+<div class="row">
+    <div class="col-md-6">
+
+        {% if form.errors %}
+        <div class="alert alert-dismissible alert-danger">
+            <button type="button" class="close" data-dismiss="alert">×</button>
+            Please enter correct username and password.
+        </div>
+        {% endif %}
+
+        <form class="form-horizontal" method="post">
+            {% csrf_token %}
+            <fieldset>
+                <div class="form-group">
+
+                    <label for="inputEmail" class="col-lg-3 control-label text-left">{{ form.username.label_tag }}</label>
+
+                    <div class="col-lg-9">
+                        <input class="form-control" id="inputEmail" placeholder="Email Address" type="text"
+                               value="{{ form.username.value|default_if_none:"" }}" name="{{ form.username.name }}">
+                    </div>
+                </div>
+                <div class="form-group">
+
+                    <label for="inputPassword" class="col-lg-3 control-label text-left">{{ form.password.label_tag }}</label>
+
+                    <div class="col-lg-9">
+                        <input class="form-control" id="inputPassword" placeholder="Your Password" type="password"
+                               value=""
+                               name="{{ form.password.name }}">
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <div class="col-lg-3">
+                        &nbsp;
+                    </div>
+
+
+                    <div class="col-lg-9 ">
+                        {% if form.g_recaptcha_response.errors %}
+                        <ul>{% for error in form.g_recaptcha_response.errors %}
+                            <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                        {% endif %}
+
+                        <div class="g-recaptcha" data-width="100%" data-sitekey="{{ re_captcha_site_key }}"></div>
+                    </div>
+                </div>
+
+                <hr>
+
+                <div class="form-group row">
+                    <div class="col-lg-3">
+                        <label for="remember" class="control-label text-left">Remember Me:</label>
+                    </div>
+
+                    <div class="col-lg-3 paddingtop5">
+                        <input id="remember" name="{{ form.remember.name }}" type="checkbox">
+                    </div>
+                    <div class="col-lg-6 text-right">
+                        <a href="{% url "password_reset" %}">Forgot password?</a>
+                    </div>
+
+                </div>
+
+            </fieldset>
+
+
+            <hr>
+
+            <div class="form-group row">
+                <div class="col-lg-6">
+                    <button type="submit" name="login" class="btn btn-primary">Login</button>
+                </div>
+            </div>
+
+
+            <input type="hidden" name="next" value="{{ next }}"/>
+        </form>
+    </div>
+
+    <div class="col-md-6"></div>
+</div>
+
+{% endblock %}

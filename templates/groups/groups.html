@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block content %}
+<ul class="breadcrumb">
+  <li><a href="/">Home</a></li>
+  <li class="active"><a href='{% url "customers" %}'>My Customers</a></li>
+  <li class="active">My Groups</li>
+</ul>
+
+<h3>Groups</h3>
+
+<hr>
+
+<table class="ntable" cellpadding="0" cellspacing="0">
+    <tr class="head">
+        <td>Name</td>
+        <td>Customers</td>
+        <td></td>
+        <td></td>
+        <td>Added</td>
+    </tr>
+
+    {% for group in groups %}
+    <tr>
+        <td><b>{{ group.name }}</b></td>
+        <td>
+            {% for customer in group.get_customers %}
+                {% if not user.is_impersonate %}
+                <span>
+                    <a href="/impersonate/{{customer.user.id}}"><b>{{ customer.user.first_name }} {{ customer.user.last_name }}</b></a>
+                </span><br>
+                {% else %}
+                <span><b>{{ customer.user.first_name }} {{ customer.user.last_name }}</b></span><br>
+                {% endif %}
+             {% endfor %}
+        </td>
+        <td><a href="{% url "group_update" group.id %}">Update</a></td>
+        <td><a href="{% url "group_delete" group.id %}"><i class="fa fa-trash-o"></i> Delete</a></td>
+        <td>{{ group.date_created }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<hr>
+
+<div class="text-right">
+    <a class="btn btn-primary" href="{% url "group_new" %}">New Group</a>
+</div>
+
+{% endblock %}

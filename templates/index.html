@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% if user.is_authenticated %}
+
+<div class="jumbotron">
+    <h1 class="text-center">Select action</h1>
+    <br>
+    <br>
+    <p class="text-center">
+        <a href="{% url 'numbers_view' %}" class="btn btn-primary btn-lg"><b>Key Numbers</b></a>
+        <a href="{% url 'targets_view' %}" class="btn btn-primary btn-lg"><b>Targets</b></a>
+        <a href="{% url 'cashflow_view' %}" class="btn btn-primary btn-lg"><b>Cashflow</b></a>
+    </p>
+</div>
+
+{% else %}
+
+<div class="jumbotron">
+    <h1 class="text-center">Private Area</h1>
+    <br>
+    <br>
+    <p class="text-center"><a href="/login" class="btn btn-primary btn-lg">Login</a>
+</div>
+
+
+{% endif %}
+
+{% endblock %}

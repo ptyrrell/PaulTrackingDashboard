@@ -1,0 +1,198 @@
+{% extends "base.html" %}
+{% load compress %}
+
+{% block scripts %}
+
+{% compress js %}
+<script language="javascript" src="/static/js/numbers.js"></script>
+{% endcompress %}
+
+<script language="javascript" src="/static/js/jquery.cookie.js"></script>
+<script language="javascript" src="/static/js/Chart.Core.js"></script>
+<script language="javascript" src="/static/js/Chart.Line.js"></script>
+<script language="javascript" src="/static/js/Chart.Bar.js"></script>
+{% endblock %}
+
+{% block content %}
+<ul class="breadcrumb">
+  <li><a href="/">Home</a></li>
+  <li class="active">Key Numbers</li>
+</ul>
+
+<ul class="nav nav-tabs">
+    <li class="active"><a aria-expanded="true" href="#home" data-toggle="tab">Data</a></li>
+    <li class=""><a aria-expanded="false" href="#profile" data-toggle="tab">Chart & Export</a></li>
+</ul>
+<div id="myTabContent" class="tab-content">
+    <div class="tab-pane fade active in" id="home">
+
+        <h3>Capture your Actual Numbers for the week</h3>
+        <br>
+
+        <div>
+            Select Week end Date:
+            <select id="actualWeekSel" name="weeks" autocomplete="off">
+                {% for w in weeks %}
+                <option class="selectable" value="{{ w }}" {% if week.year == w.year and week.week == w.week %}selected{% endif %}>{{ w.sunday }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <br>
+
+
+        <div class="row">
+            <div class="col-md-3 padding0">
+
+                <!--<a class="prev-week" href="#"> <i class="fa fa-chevron-left"></i> </a>-->
+
+                <b><span class="current-week"></span></b>
+
+                <!--<a class="next-week" href="#"> <i class="fa fa-chevron-right"></i></a>-->
+
+            </div>
+            <div class="col-md-6 text-center"> </div>
+            <div class="col-md-3">
+
+                Week <b><span class="year-week">{{ week.week }}</span></b> of the Year
+
+            </div>
+
+        </div>
+
+        <br>
+        <form autocomplete="off">
+        <table class="ntable" cellpadding="0" cellspacing="0">
+            <tr class="head">
+
+                <td>#</td>
+                <td>Key Numbers</td>
+                <td class="text-center">Target</td>
+                <td class="text-center">Actual</td>
+                <td>Variance</td>
+                <td>Description</td>
+
+            </tr>
+            {% for number in numbers %}
+            <tr>
+
+                <td class="bggray">{{ forloop.counter }}</td>
+                <td class="bggray">{{ number.name }}</td>
+
+                <td class="text-right">
+                    <span class="symbol target-symbol-{{ number.id }}">{{ number.target_symbol|default:"" }}</span>
+                    <span class="text-right target-{{ number.id }}"></span>
+                </td>
+                <td class="text-right">
+
+                    <span class="symbol actual-symbol-{{ number.id }}">{{ number.actual_symbol|default:"" }}</span>
+
+                    {% if number.is_formula %}
+                    <span class="text-right input-actual" data-number="{{ number.id }}"></span>
+                    {% else %}
+                        {% if number.number_type == 2 %}
+                        <select data-type="{{ number.number_type }}" data-number="{{ number.id }}" data-week="{{ week }}" class="input-actual" autocomplete="off">
+
+                            <option name="1" value="1">Yes</option>
+                            <option name="0" value="0">No</option>
+                            <option name="2" value="2">Payment Plan</option>
+                        </select>
+                        {% else %}
+                        <input class="input-actual" autocomplete="off" data-type="{{ number.number_type }}" data-number="{{ number.id }}" data-week="{{ week }}" size="10" type="text" value=""/>
+                        {% endif %}
+                    {% endif %}
+
+                </td>
+                <td class="text-right">
+                    <span class="symbol var-{{number.id}}-col variance-symbol-{{ number.id }}">{{ number.variance_symbol|default:"" }}</span>
+                    <span class="text-right var-{{number.id}}-col variance-{{ number.id }}"></span>
+                </td>
+                <td>{{ number.description }}</td>
+
+            </tr>
+            {% endfor %}
+
+        </table>
+        </form>
+
+    </div>
+    <div class="tab-pane fade" id="profile">
+        <h3>Visualise your Key Numbers</h3>
+
+        <br>
+
+        <div class="row">
+            <div class="col-md-6 padding0">
+
+                Select data to chart:
+
+                <select id="numberIdSel" autocomplete="off">
+                {% for n in chart_numbers %}
+                <option value="{{ n.id }}">{{ n.name }}</option>
+                {% endfor %}
+                </select>
+
+                <br><br>
+                Select Periods:
+                <select id="periodSel">
+                    <option value="weekly">Weekly</option>
+                    <option value="monthly">Monthly</option>
+                    <option value="quarterly">Quarterly</option>
+                    <option value="yearly">Yearly</option>
+                </select>
+
+                <br><br>
+
+                Starting Week:
+                <select id="startWeekSel" name="" autocomplete="off">
+                    {% for w in weeks %}
+                    <option value="{{ w }}" {% if w == chart_default_week %}selected="selected"{%endif%}>{{ w.sunday }}</option>
+                    {% endfor %}
+                </select>
+
+                &nbsp;&nbsp;
+                End:
+                <select id="endWeekSel" autocomplete="off">
+                    {% for w in chart_end_weeks %}
+                    <option value="{{ w }}" {% if w == chart_end_default_week %}selected="selected"{%endif%}>{{ w.sunday }}</option>
+                    {% endfor %}
+                </select>
+
+            </div>
+
+            <div class="col-md-3 text-right">
+                <div class="legend hidden text-right">
+                    Legend:&nbsp;&nbsp;<span class="legend-target">Target</span>&nbsp;&nbsp;&nbsp;<span class="legend-actual">Actual</span>
+                    <br><br>
+                    <div class="legend-description">
+
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="col-md-3 text-right padding0">
+                <input id="buildChart" type="button" class="btn btn-primary" value="Build Chart"><br>
+                <div class="chart-types hidden">
+                    <a href="#" class="chart-type-line">Line</a>&nbsp;|&nbsp;
+                    <a href="#" class="chart-type-bar">Bar</a>
+                </div>
+                <br>
+                <div class="text-right paddingtop5">
+                    <a id="exportLink" href="/numbers/export?startWeek={{ chart_default_week }}&endWeek={{ chart_end_default_week }}"><b>Export All to Excel</b></a>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div id="chartContainer">
+
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

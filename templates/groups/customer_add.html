@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+
+{% block content %}
+<ul class="breadcrumb">
+  <li><a href="/">Home</a></li>
+  <li class="active"><a href="{% url "customers" %}">My Customers</a></li>
+
+  <li class="active">New Customer</li>
+</ul>
+
+<h3>New Customer</h3>
+
+<div class="row">
+    <div class="col-md-8">
+        <form class="form-horizontal" method="post">
+            {% csrf_token %}
+            <fieldset>
+
+                <div class="form-group">
+                  {{ form.first_name.errors }}
+                  <label for="id_first_name" class="col-lg-3 control-label">First Name:</label>
+                  <div class="col-lg-9">
+                      <input class="form-control" id="id_first_name" placeholder="" type="text" value="{{ form.first_name.value|default_if_none:"" }}" name="{{ form.first_name.name }}">
+                  </div>
+                </div>
+
+
+                <div class="form-group">
+                  {{ form.last_name.errors }}
+                  <label for="id_last_name" class="col-lg-3 control-label">Last Name:</label>
+                  <div class="col-lg-9">
+                      <input class="form-control" id="id_last_name" placeholder="" type="text" value="{{ form.last_name.value|default_if_none:"" }}" name="{{ form.last_name.name }}">
+                  </div>
+                </div>
+
+
+                <div class="form-group">
+                  {{ form.email.errors }}
+                  <label for="id_email" class="col-lg-3 control-label">Email:</label>
+                  <div class="col-lg-9">
+                      <input class="form-control" id="id_email" placeholder="" type="text" value="{{ form.email.value|default_if_none:"" }}" name="{{ form.email.name }}">
+                  </div>
+                </div>
+
+
+                <div class="form-group">
+                  {{ form.groups.errors }}
+                  <label for="id_groups" class="col-lg-3 control-label">Groups:</label>
+                  <div class="col-lg-9">
+                      {{ form.groups }}
+                  </div>
+                </div>
+
+
+                <div class="form-group">
+                  {{ form.password.errors }}
+                  <label for="id_password" class="col-lg-3 control-label">Password:</label>
+                  <div class="col-lg-9">
+                      <input class="form-control" id="id_password" placeholder="" type="text" value="{{ form.password.value|default_if_none:"" }}" name="{{ form.password.name }}">
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  {{ form.coach.errors }}
+                  <label for="id_coach" class="col-lg-3 control-label">Coach:</label>
+                  <div class="col-lg-9">
+                      {{ form.coach }}
+                  </div>
+                </div>
+
+
+                <div class="form-group">
+                  <label for="id_cashflow_weeks" class="col-lg-3 control-label">Default Cashflow weeks</label>
+                  <div class="col-lg-9">
+                      <input class="form-control" id="id_cashflow_weeks" placeholder="" type="text" value="{{ form.cashflow_weeks.value|default_if_none:"13" }}" name="{{ form.cashflow_weeks.name }}">
+                  </div>
+                </div>
+
+
+                <div class="form-group">
+                  <label for="id_cashflow_weeks" class="col-lg-3 control-label">Cashflow start week:</label>
+                  <div class="col-lg-9">
+                      <select name="cashflow_start_week">
+                          <option value="1">Current</option>
+                          {% for week in weeks %}
+                            <option value="{{ week }}">{{ week.sunday }}</option>
+                          {% endfor %}
+                      </select>
+                  </div>
+                </div>
+
+
+                <div class="form-group">
+                  <label for="id_can_edit_target" class="col-lg-3 control-label">Can edit targets?</label>
+                  <div class="col-lg-9">
+                      {{ form.can_edit_target }}
+                  </div>
+                </div>
+
+                <div style="clear:left"></div>
+
+                <div class="form-group">
+                  <label for="id_can_edit_target" class="col-lg-3 control-label">Can edit cashflow?</label>
+                  <div class="col-lg-9">
+                      {{ form.can_edit_cashflow }}
+                  </div>
+                </div>
+
+
+                <div class="form-group">
+                    <input type="submit" class="btn btn-primary" value="Add" />
+                </div>
+            </fieldset>
+
+
+        </form>
+
+        </div>
+    <div class="col-md-4"></div>
+
+</div>
+
+
+{% endblock %}

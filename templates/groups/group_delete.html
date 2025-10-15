@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+<ul class="breadcrumb">
+  <li><a href="/">Home</a></li>
+  <li class="active"><a href='{% url "customers" %}'>My Customers</a></li>
+  <li class="active"><a href='{% url "group_list" %}'>My Groups</a></li>
+  <li class="active">Delete Group</li>
+</ul>
+
+<h3>Delete Group {{ group.name }}</h3>
+
+<hr>
+
+<form method="post">{% csrf_token %}
+    <h4>Are you want to delete group {{ group.name }}?</h4>
+    <br>
+
+    <a class="btn btn-default" href='{% url "group_list" %}'>Cancel</a>&nbsp;&nbsp;
+    <input type="submit" class="btn btn-primary" value="Yes" />
+</form>
+{% endblock %}
