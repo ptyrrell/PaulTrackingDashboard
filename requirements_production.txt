@@ -1,0 +1,14 @@
+Django==1.11.29
+mysqlclient
+psycopg2-binary
+isoweek
+django-password-reset
+django-impersonate==1.4
+django-compressor==2.2
+requests
+django-widget-tweaks
+python-dateutil
+xlsxwriter==1.1.5
+gunicorn
+whitenoise==5.3.0
+dj-database-url
